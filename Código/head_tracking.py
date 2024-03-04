@@ -16,12 +16,12 @@ while True:
     frame_h, frame_w, _ = frame.shape
     if landmark_points:
         landmarks = landmark_points[0].landmark
-        for id, landmark in enumerate(landmarks[474:478]):
+        for id, landmark in enumerate(landmarks[4:5]):
             x = int(landmark.x * frame_w)
             y = int(landmark.y * frame_h)
-            print(landmark.x, landmark.y)
+            print(x, y)
             cv2.circle(frame, (x,y), 3, (0,255,0))
-            if id == 1:
+            if id == 0:
                 screen_x = (screen_w/frame_w) * x
                 screen_y = (screen_h/frame_h) * y
                 pyautogui.moveTo(screen_x,screen_y)
@@ -30,11 +30,22 @@ while True:
             x = int(landmark.x * frame_w)
             y = int(landmark.y * frame_h)
             cv2.circle(frame, (x,y), 3, (0,255,255))
-        if (left_eye[0].y - left_eye[1].y) < 0.010:
+        if (left_eye[0].y - left_eye[1].y) < 0.009:
             pyautogui.doubleClick()
+            print(left_eye[0].y - left_eye[1].y)
             pyautogui.sleep(1)
+        right_eye = [landmarks[475], landmarks[477]]
+        for landmark in right_eye:
+            x = int(landmark.x * frame_w)
+            y = int(landmark.y * frame_h)
+            cv2.circle(frame, (x,y), 3, (255,255,255))
+        #if (right_eye[0].y - right_eye[1].y) < 0.010:
+            #pyautogui.doubleClick()
+            #pyautogui.sleep(1)
+        
+        
     
-    cv2.imshow('Eye Controlled Mouse', frame)
-    
-    if cv2.waitKey(10) & 0xFF == ord('c'):
-        break
+        cv2.imshow('Eye Controlled Mouse', frame)
+
+        if cv2.waitKey(10) & 0xFF == ord('c'):
+            break
